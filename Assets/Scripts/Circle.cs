@@ -5,6 +5,7 @@ using UnityEngine;
 public class Circle : MonoBehaviour
 {
     private float Radius;
+    private float mass;
 
     public bool IsColliding(Circle circle)
     {
@@ -14,6 +15,16 @@ public class Circle : MonoBehaviour
     public float GetRadius()
     {
         return Radius;
+    }
+
+    public float GetMass()
+    {
+        return mass;
+    }
+        
+    public void SetMass(float mass)
+    {
+        this.mass = mass;
     }
 
     public void SetRadius(float rad)
