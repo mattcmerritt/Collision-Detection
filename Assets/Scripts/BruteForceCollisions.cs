@@ -45,7 +45,6 @@ public class BruteForceCollisions : MonoBehaviour
 
                     Debug.Log("HERE");
                     //elastic collision 
-                    //MIGHT NEED TO MAKE SURE THAT THINGS ARE ZERO MASS 
                     float invMassSum = Circles[c1].GetMass() + Circles[c2].GetMass();
                     invMassSum = 1 / invMassSum;
 
@@ -61,6 +60,15 @@ public class BruteForceCollisions : MonoBehaviour
                     Circles[c1].GetComponent<Rigidbody2D>().velocity = newVel1;
                     Circles[c2].GetComponent<Rigidbody2D>().velocity = newVel2;
 
+                    //make sure they are not intersecting
+                    Vector3 centerDir = Circles[c2].transform.position - Circles[c1].transform.position;
+                    float overLapMag = (Circles[c1].GetRadius() + Circles[c2].GetRadius()) - centerDir.magnitude;
+                    centerDir.Normalize();
+
+                    Circles[c1].transform.position = Circles[c1].transform.position - centerDir * overLapMag / 2f;
+                    Circles[c2].transform.position = Circles[c2].transform.position + centerDir * overLapMag / 2f;
+
+                    
                 }
             }
         }
