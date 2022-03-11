@@ -163,7 +163,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 48431402}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8a710917d45110747b42a848bb68ad96, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -357,7 +357,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 113888554}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8a710917d45110747b42a848bb68ad96, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -453,7 +453,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 304001789}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8a710917d45110747b42a848bb68ad96, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -545,7 +545,7 @@ MonoBehaviour:
   SpherePrefab: {fileID: 4767608665189895813, guid: c68c24bb11a07d545bae13bdd791bedb, type: 3}
   UnitySpherePrefab: {fileID: 7799255399773132221, guid: c839b933d1b54ac4580074a75f78a7a5, type: 3}
   Speed: 400
-  UsingUnity: 1
+  UsingUnity: 0
 --- !u!4 &629075320
 Transform:
   m_ObjectHideFlags: 0
@@ -600,7 +600,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 693549749}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8a710917d45110747b42a848bb68ad96, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -696,7 +696,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738326826}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8a710917d45110747b42a848bb68ad96, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -792,7 +792,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752100763}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8a710917d45110747b42a848bb68ad96, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
