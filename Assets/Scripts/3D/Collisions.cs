@@ -13,7 +13,7 @@ namespace ThreeDimensions {
         [Range(0, 1000000), SerializeField]
         private int SphereCount;
         [SerializeField]
-        private GameObject SpherePrefab;
+        private GameObject SpherePrefab, UnitySpherePrefab;
         [Range(0, 1000), SerializeField]
         private float Speed;
 
@@ -24,7 +24,7 @@ namespace ThreeDimensions {
             Spheres = new List<Sphere>();
             for (int i = 0; i < SphereCount; i++)
             {
-                Spheres.Add(Instantiate(SpherePrefab, new Vector3(Random.Range(-BoundX, BoundX), Random.Range(-BoundY, BoundY), Random.Range(-BoundZ, BoundZ)), Quaternion.identity).GetComponent<Sphere>());
+                Spheres.Add(Instantiate(UsingUnity ? UnitySpherePrefab : SpherePrefab, new Vector3(Random.Range(-BoundX, BoundX), Random.Range(-BoundY, BoundY), Random.Range(-BoundZ, BoundZ)), Quaternion.identity).GetComponent<Sphere>());
                 Spheres[i].GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1)).normalized * Speed);
                 Spheres[i].name = "Sphere " + i;
                 Spheres[i].SetRadius(Spheres[i].transform.localScale.x / 2);
