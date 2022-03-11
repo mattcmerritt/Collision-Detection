@@ -45,11 +45,11 @@ public class BruteForceCollisions : MonoBehaviour
                         Vector3 dir = Circles[c2].transform.position - Circles[c1].transform.position;
                         if (Vector3.Angle(dir, Circles[c1].GetComponent<Rigidbody2D>().velocity) > 180)
                         {
-                            Debug.Log("SKIPPED");
+                            //Debug.Log("SKIPPED");
                             continue;
                         }
 
-                        Debug.Log("HERE");
+                        //Debug.Log("HERE");
                         //elastic collision 
                         float invMassSum = Circles[c1].GetMass() + Circles[c2].GetMass();
                         invMassSum = 1 / invMassSum;
