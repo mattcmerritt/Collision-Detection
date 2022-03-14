@@ -600,7 +600,9 @@ MonoBehaviour:
   BoundY: 99.5
   CircleCount: 500
   CirclePrefab: {fileID: 5369364740363869401, guid: 987db67f05fe25d498980cc43f5b6aa0, type: 3}
+  UnityCirclePrefab: {fileID: 3229723836474952183, guid: 314667a084e00ca43a139b5fb6436750, type: 3}
   Speed: 400
+  UsingUnity: 1
 --- !u!4 &1290772837
 Transform:
   m_ObjectHideFlags: 0
