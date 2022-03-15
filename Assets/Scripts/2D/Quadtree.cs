@@ -14,7 +14,7 @@ namespace TwoDimensions
         
         public Quadtree(List<Circle> circles, float width, float height)
         {
-            Circles = circles;
+            Circles = new List<Circle>(circles);
             Width = width;
             Height = height;
         }
@@ -55,11 +55,35 @@ namespace TwoDimensions
                     j++;
                 }
 
-                Debug.Log(childNums[0] + " : " + childNums[1] + " : " + childNums[2] + " : " + childNums[3]);
+                // Debug.Log(childNums[0] + " : " + childNums[1] + " : " + childNums[2] + " : " + childNums[3]);
 
                 curNode.RemoveCircles();
             }
 
+        }
+
+        // query(node n) : List
+        //      check if the current nodes bounds overlap with the circle
+        //          if so, add the circles in the node to the list of circles found
+        //          if no or node is null, end recursion
+
+        public List<Circle> Query(Circle c) 
+        {
+            return Query(Root, c);
+        }
+
+        private List<Circle> Query(Node n, Circle c) 
+        {
+            List<Circle> found = new List<Circle>();
+            if (n != null && c.IsColliding(n.GetX(), n.GetY(), n.GetWidth(), n.GetHeight())) 
+            {
+                found = new List<Circle>(n.GetCircles());
+                foreach (Node child in n.GetChildren()) 
+                {
+                    found.AddRange(Query(child, c));
+                }
+            }
+            return found;
         }
 
         private class Node 
