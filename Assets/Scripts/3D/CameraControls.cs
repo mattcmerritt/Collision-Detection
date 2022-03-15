@@ -6,6 +6,7 @@ public class CameraControls : MonoBehaviour
 {
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float RotateSpeed;
+    [SerializeField] private float MovementRemaining;
     private void Update()
     {
         // right
@@ -19,14 +20,24 @@ public class CameraControls : MonoBehaviour
             transform.eulerAngles -= new Vector3(0, RotateSpeed * Time.deltaTime, 0);
         }
         // up
-        if (Input.GetAxisRaw("Vertical") > 0)
+        if (Input.GetAxisRaw("Vertical") > 0 && MovementRemaining >= -90f)
         {
             transform.eulerAngles -= new Vector3(RotateSpeed * Time.deltaTime, 0, 0);
+            MovementRemaining -= RotateSpeed * Time.deltaTime;
+            if(MovementRemaining <= -90f)
+            {
+                transform.eulerAngles = new Vector3(-90f, transform.eulerAngles.y, transform.eulerAngles.z);
+            }
         }
         // down
-        else if (Input.GetAxisRaw("Vertical") < 0)
+        else if (Input.GetAxisRaw("Vertical") < 0 && MovementRemaining <= 90f)
         {
             transform.eulerAngles += new Vector3(RotateSpeed * Time.deltaTime, 0, 0);
+            MovementRemaining += RotateSpeed * Time.deltaTime;
+            if (MovementRemaining >= 90f)
+            {
+                transform.eulerAngles = new Vector3(90f, transform.eulerAngles.y, transform.eulerAngles.z);
+            }
         }
         // move forward
         if((Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.LeftControl) || Input.GetMouseButton(0)))
