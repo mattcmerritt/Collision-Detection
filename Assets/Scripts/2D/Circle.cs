@@ -7,7 +7,7 @@ namespace TwoDimensions
     public class Circle : MonoBehaviour
     {
         private float Radius;
-        private float mass;
+        private float Mass;
 
         public bool IsColliding(Circle circle)
         {
@@ -21,12 +21,12 @@ namespace TwoDimensions
 
         public float GetMass()
         {
-            return mass;
+            return Mass;
         }
 
         public void SetMass(float mass)
         {
-            this.mass = mass;
+            Mass = mass;
         }
 
         public void SetRadius(float rad)
