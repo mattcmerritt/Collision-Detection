@@ -29,7 +29,7 @@ namespace ThreeDimensions
         private void BuildOctree(Node curNode)
         {
 
-            if (!(curNode.GetSpheres().Count < MinSpheres || curNode.GetXSize() < MinDimension || curNode.GetYSize() < MinDimension) || curNode.GetZSize() < MinDimension)
+            if (!(curNode.GetSpheres().Count < MinSpheres || curNode.GetXSize() < MinDimension || curNode.GetYSize() < MinDimension || curNode.GetZSize() < MinDimension))
             {
                 // creating empty children
                 for(int i = 0; i < 8; i++)
@@ -50,13 +50,13 @@ namespace ThreeDimensions
                     curNode.GetChildren()[index].AddSphere(s);
                 }
                 
-                int[] childNums = new int[8]; 
-                int j = 0;
+                // int[] childNums = new int[8]; 
+                // int j = 0;
                 // building the trees for the children
                 foreach(Node child in curNode.GetChildren()){
                     BuildOctree(child);
-                    childNums[j] = child.GetSpheres().Count;
-                    j++;
+                    // childNums[j] = child.GetSpheres().Count;
+                    // j++;
                 }
                 curNode.RemoveSpheres();
             }
