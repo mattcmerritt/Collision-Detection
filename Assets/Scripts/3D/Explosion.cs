@@ -28,7 +28,6 @@ namespace ThreeDimensions
             for (int i = 0; i < SphereCount; i++)
             {
                 float rad = Random.Range(0.5f, 5f); // determine radius
-                //float rad = 1f;
                 Spheres.Add(Instantiate(UsingUnity ? UnitySpherePrefab : SpherePrefab, Vector3.zero, Quaternion.identity).GetComponent<Sphere>());
                 Spheres[i].GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1)).normalized * Speed);
                 Spheres[i].transform.localScale = new Vector3(rad, rad, rad);
@@ -43,29 +42,6 @@ namespace ThreeDimensions
                 Tree.BuildOctree();
             }
         }
-
-        // distribution algorithm from https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere
-        //private Vector3[] FindPointsOnSphere(float radius, int sphereCount)
-        //{
-        //    Vector3[] pts = new Vector3[sphereCount];
-        //    float phi = Mathf.PI * (3f - Mathf.Sqrt(5f));
-
-        //    for (int i = 0; i < sphereCount; i++)
-        //    {
-        //        float y = 1 - (i / (sphereCount - 1)) * 2;
-        //        radius = Mathf.Sqrt(1 - y * y);
-
-        //        float theta = phi * i;
-
-        //        float x = 100f;
-        //        float z = Mathf.Sin(theta) * radius;
-
-        //        pts[i] = new Vector3(x, y, z);
-        //    }
-
-        //    return pts;
-        //}
-
 
         private void Update()
         {
@@ -118,8 +94,6 @@ namespace ThreeDimensions
                 // Octree
                 else
                 {
-                    // Octree o = new Octree(Spheres, BoundX*2, BoundY*2, BoundZ*2);
-                    // o.BuildOctree();
                     Tree.UpdateTree();
 
                     for (int s1 = 0; s1 < Spheres.Count; s1++)

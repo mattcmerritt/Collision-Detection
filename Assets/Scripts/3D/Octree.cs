@@ -163,7 +163,7 @@ namespace ThreeDimensions
                     return FindNode(s, child);
                 }
             }
-            Debug.LogError("RUT ROH " + s.name);
+            Debug.LogWarning("RUT ROH " + s.name);
             return null;
         }
 
