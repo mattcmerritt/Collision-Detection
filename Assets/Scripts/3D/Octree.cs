@@ -29,7 +29,7 @@ namespace ThreeDimensions
         private void BuildOctree(Node curNode)
         {
 
-            if (!(curNode.GetSpheres().Count < MinSpheres || curNode.GetXSize() < MinDimension || curNode.GetYSize() < MinDimension) || curNode.GetZSize() < MinDimension)
+            if (!(curNode.GetSpheres().Count < MinSpheres || curNode.GetXSize() < MinDimension || curNode.GetYSize() < MinDimension || curNode.GetZSize() < MinDimension))
             {
                 // creating empty children
                 for(int i = 0; i < 8; i++)
@@ -50,17 +50,121 @@ namespace ThreeDimensions
                     curNode.GetChildren()[index].AddSphere(s);
                 }
                 
-                int[] childNums = new int[8]; 
-                int j = 0;
+                // int[] childNums = new int[8]; 
+                // int j = 0;
                 // building the trees for the children
                 foreach(Node child in curNode.GetChildren()){
                     BuildOctree(child);
-                    childNums[j] = child.GetSpheres().Count;
-                    j++;
+                    // childNums[j] = child.GetSpheres().Count;
+                    // j++;
                 }
                 curNode.RemoveSpheres();
             }
 
+        }
+
+
+        public void UpdateTree()
+        {
+
+            UpdateTree(Root);
+
+            CleanNodes(Root);
+
+        }
+
+        private void UpdateTree(Node curNode)
+        {
+            if(curNode.GetSpheres().Count != 0)
+            {
+                List<Sphere> removed = new List<Sphere>();
+                foreach(Sphere s in curNode.GetSpheres())
+                {
+                    if(!curNode.Contains(s))
+                    {
+                        FindNode(s).AddSphere(s);
+                        removed.Add(s);
+                    }
+                }
+                
+                curNode.GetSpheres().RemoveAll((Sphere s) => removed.Contains(s));
+            }
+            else
+            {
+                foreach(Node child in curNode.GetChildren())
+                {
+                    UpdateTree(child);
+                }
+            }
+        }
+
+        private int CleanNodes(Node curNode)
+        {
+            //clean Children
+            int totalSpheres = 0;
+            foreach(Node child in curNode.GetChildren())
+            {
+                totalSpheres += CleanNodes(child);
+            }
+            // adding new children if node has too many nodes in the parent
+            if(totalSpheres > MinSpheres && curNode.GetChildren().Count == 0)
+            {
+                // creating empty children
+                for(int i = 0; i < 8; i++)
+                {
+                    curNode.AddChild(new Node(curNode.GetXSize()/2f, curNode.GetYSize()/2f, curNode.GetZSize()/2f,
+                                                                         curNode.GetX() + Mathf.Pow(-1, i+1) * curNode.GetXSize()/4f,
+                                                                         curNode.GetY() + Mathf.Pow(-1, i/2) * curNode.GetYSize()/4f,
+                                                                         curNode.GetZ() - Mathf.Pow(-1, i/4) * curNode.GetZSize()/4f, curNode));
+                }
+
+                // placing spheres into the correct child using centers only
+                foreach (Sphere s in curNode.GetSpheres()) 
+                {
+                    int dx = (s.transform.position.x > curNode.GetX()) ? 1 : 0;
+                    int dy = (s.transform.position.y > curNode.GetY()) ? 0 : 1;
+                    int dz = (s.transform.position.z > curNode.GetZ()) ? 1 : 0; 
+                    int index = dx + dy * 2 + dz * 4;
+                    curNode.GetChildren()[index].AddSphere(s);
+                }
+            }
+            // removing children if they can be all put in a single parent
+            if(totalSpheres < MinSpheres && curNode.GetChildren().Count != 0)
+            {
+                foreach(Node child in curNode.GetChildren())
+                {
+                    foreach(Sphere s in child.GetSpheres())
+                    {
+                        curNode.AddSphere(s);
+                    }
+                }
+                curNode.RemoveChildren();
+                totalSpheres = 0;
+            }
+            //check if too few and delete
+            return curNode.GetSpheres().Count + totalSpheres;
+        }
+        
+        private Node FindNode(Sphere s)
+        {
+            return FindNode(s, Root);
+        }
+        
+        private Node FindNode(Sphere s, Node curNode)
+        {
+            if(curNode.GetChildren().Count == 0)
+            {
+                return curNode;
+            }
+            foreach(Node child in curNode.GetChildren())
+            {
+                if(child.Contains(s))
+                {
+                    return FindNode(s, child);
+                }
+            }
+            Debug.LogWarning("RUT ROH " + s.name);
+            return null;
         }
 
         // query(node n) : List
@@ -92,6 +196,7 @@ namespace ThreeDimensions
             private List<Sphere> Spheres;
             private List<Node> Children;
             private Node Parent;
+
             private float XSize, YSize, ZSize;
             private float X, Y, Z;
 
@@ -99,6 +204,7 @@ namespace ThreeDimensions
             {
                 Spheres = new List<Sphere>();
                 Children = new List<Node>();
+ 
                 XSize = xSize;
                 YSize = ySize;
                 ZSize = zSize;
@@ -117,6 +223,23 @@ namespace ThreeDimensions
                 Spheres = spheres;
             }
 
+            public bool Contains(Sphere s)
+            {
+                if(s.transform.position.x < X - XSize/2f || s.transform.position.x > X + XSize/2f)
+                {
+                    return false;
+                }
+                if(s.transform.position.y < Y - YSize/2f || s.transform.position.y > Y + YSize/2f)
+                {
+                    return false;
+                }
+                if(s.transform.position.z < Z - ZSize/2f || s.transform.position.z > Z + ZSize/2f)
+                {
+                    return false;
+                }
+                return true;
+            }
+
             public void AddChild(Node child){
                 Children.Add(child);
             }
@@ -128,6 +251,11 @@ namespace ThreeDimensions
             public void RemoveSpheres() 
             {
                 Spheres.Clear();
+            }
+
+            public void RemoveChildren()
+            {
+                Children.Clear();
             }
 
             public List<Sphere> GetSpheres() 

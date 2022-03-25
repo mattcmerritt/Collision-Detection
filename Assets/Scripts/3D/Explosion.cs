@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ThreeDimensions {
-
-    public class Collisions : MonoBehaviour
+namespace ThreeDimensions
+{
+    public class Explosion : MonoBehaviour
     {
         private List<Sphere> Spheres;
 
@@ -20,22 +20,25 @@ namespace ThreeDimensions {
         [SerializeField]
         private bool UsingUnity, UsingBruteForce;
         private Octree Tree;
-        
+
         private void Start()
         {
             Spheres = new List<Sphere>();
+
             for (int i = 0; i < SphereCount; i++)
             {
-                float rad = 2.5f; // determine radius
-                Spheres.Add(Instantiate(UsingUnity ? UnitySpherePrefab : SpherePrefab, new Vector3(Random.Range(-BoundX + rad, BoundX - rad), Random.Range(-BoundY + rad, BoundY - rad), Random.Range(-BoundZ + rad, BoundZ - rad)), Quaternion.identity).GetComponent<Sphere>());
+                float rad = Random.Range(0.5f, 5f); // determine radius
+                Spheres.Add(Instantiate(UsingUnity ? UnitySpherePrefab : SpherePrefab, Vector3.zero, Quaternion.identity).GetComponent<Sphere>());
                 Spheres[i].GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1)).normalized * Speed);
+                Spheres[i].transform.localScale = new Vector3(rad, rad, rad);
                 Spheres[i].name = "Sphere " + i;
                 Spheres[i].SetRadius(Spheres[i].transform.localScale.x / 2);
                 Spheres[i].SetMass(Spheres[i].GetComponent<Rigidbody>().mass);
             }
 
-            if (!UsingBruteForce && !UsingUnity) {
-                Tree = new Octree(Spheres, BoundX*2, BoundY*2, BoundZ*2);
+            if (!UsingBruteForce && !UsingUnity)
+            {
+                Tree = new Octree(Spheres, BoundX * 2, BoundY * 2, BoundZ * 2);
                 Tree.BuildOctree();
             }
         }
@@ -45,7 +48,7 @@ namespace ThreeDimensions {
             if (!UsingUnity)
             {
                 // Brute Force
-                if (UsingBruteForce) 
+                if (UsingBruteForce)
                 {
                     for (int s1 = 0; s1 < Spheres.Count - 1; s1++)
                     {
@@ -91,8 +94,6 @@ namespace ThreeDimensions {
                 // Octree
                 else
                 {
-                    // Octree o = new Octree(Spheres, BoundX*2, BoundY*2, BoundZ*2);
-                    // o.BuildOctree();
                     Tree.UpdateTree();
 
                     for (int s1 = 0; s1 < Spheres.Count; s1++)
