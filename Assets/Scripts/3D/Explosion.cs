@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ThreeDimensions
 {
@@ -18,7 +19,7 @@ namespace ThreeDimensions
         private float Speed;
 
         [SerializeField]
-        private bool UsingUnity, UsingBruteForce;
+        private static bool UsingUnity, UsingBruteForce;
         private Octree Tree;
 
         private void Start()
@@ -147,6 +148,19 @@ namespace ThreeDimensions
                     s.GetComponent<Rigidbody>().AddForce(vel.normalized * Speed);
                 }
             }
+        }
+
+        public void SwitchUnity()
+        {
+            UsingUnity = true;
+            SceneManager.LoadScene(0);
+        }
+
+        public void SwitchAlgorithm(bool isBruteForce)
+        {
+            UsingUnity = false;
+            UsingBruteForce = isBruteForce;
+            SceneManager.LoadScene(0);
         }
     }
 }
