@@ -23,7 +23,7 @@ public class FrameCounter : MonoBehaviour
 
         if (UpdateTimer > UpdateDelay)
         {
-            Textbox.text = "FPS: " + (1 / Time.smoothDeltaTime) + "\nTime between Frames: " + Time.smoothDeltaTime;
+            Textbox.text = "FPS: " + (1 / Time.smoothDeltaTime);
             UpdateTimer = 0;
         }
     }
